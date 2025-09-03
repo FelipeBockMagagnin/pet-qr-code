@@ -1,9 +1,24 @@
+"use client";
+import { useSearchParams } from "next/navigation";
+
 export default function GerarPerfil() {
+  const searchParams = useSearchParams();
+  const error = decodeURIComponent(searchParams.get("error") || "");
+
   return (
     <div className="container mt-3">
       <h1 className="mb-3">Cadastro de Pet</h1>
-      <form className="needs-validation" noValidate>
-
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      )}
+      <form
+        className="needs-validation"
+        noValidate
+        method="POST"
+        action="/api/pet-create"
+      >
         <h4 className="mb-3">Dados do Dono</h4>
         <div className="row g-3">
           <div className="col-sm-6">
@@ -14,6 +29,7 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="nome_dono"
+              name="nome_dono"
               placeholder="Nome do dono"
               required
             />
@@ -27,6 +43,7 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="telefone"
+              name="telefone"
               placeholder="(99) 99999-9999"
               required
             />
@@ -40,6 +57,7 @@ export default function GerarPerfil() {
               type="email"
               className="form-control"
               id="email"
+              name="email"
               placeholder="email@email.com"
             />
           </div>
@@ -52,12 +70,12 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="endereco"
+              name="endereco"
               placeholder="Rua, número, bairro"
               required
             />
           </div>
         </div>
-
 
         <h4 className="my-4">Dados do Pet</h4>
         <div className="row g-3">
@@ -69,6 +87,7 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="nome_pet"
+              name="nome_pet"
               placeholder="Ex: Rex"
               required
             />
@@ -82,6 +101,7 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="especie"
+              name="especie"
               placeholder="Ex: Cachorro, Gato"
               required
             />
@@ -95,6 +115,7 @@ export default function GerarPerfil() {
               type="text"
               className="form-control"
               id="raca"
+              name="raca"
               placeholder="Ex: Labrador"
             />
           </div>
@@ -107,6 +128,7 @@ export default function GerarPerfil() {
               type="number"
               className="form-control"
               id="idade"
+              name="idade"
               placeholder="Em anos"
             />
           </div>
@@ -119,6 +141,7 @@ export default function GerarPerfil() {
               type="number"
               className="form-control"
               id="peso"
+              name="peso"
               step="0.1"
               placeholder="Ex: 12.5"
             />
@@ -132,6 +155,7 @@ export default function GerarPerfil() {
               className="form-control"
               id="descricao"
               rows="3"
+              name="descricao"
               placeholder="Informações adicionais sobre o pet"
             ></textarea>
           </div>
