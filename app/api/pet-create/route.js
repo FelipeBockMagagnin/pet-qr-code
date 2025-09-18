@@ -1,5 +1,4 @@
 import Pet from "@/core/rules/pet";
-import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
 
 export async function POST(request) {
