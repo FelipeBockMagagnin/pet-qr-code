@@ -25,4 +25,29 @@ model Pet {
   idade Int?
   peso Float?
   descricao String?
+
+  vacinas PetVacina[]
+}
+
+model Vacina {
+  id Int @id @default(autoincrement())
+  nome_vacina String
+  especie_alvo String  
+  classificacao String  
+  descricao_doenca String? 
+
+  pets PetVacina[]
+}
+
+model PetVacina {
+  id Int @id @default(autoincrement())
+  pet_id Int
+  vacina_id Int
+  data_aplicacao DateTime @default(now())
+  
+  pet Pet @relation(fields: [pet_id], references: [id])
+  vacina Vacina @relation(fields: [vacina_id], references: [id])
+
+  // Chave única para garantir que um pet não tenha a mesma vacina registrada duas vezes
+  @@unique([pet_id, vacina_id])
 }

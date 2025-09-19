@@ -1,9 +1,33 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function GerarPerfil() {
   const searchParams = useSearchParams();
   const error = decodeURIComponent(searchParams.get("error") || "");
+
+  const [vacinas, setVacinas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchVacinas = async () => {
+      try {
+        const response = await fetch("/api/vacinas"); 
+        if (!response.ok) {
+          throw new Error("Falha ao carregar os dados das vacinas");
+        }
+        const data = await response.json();
+        setVacinas(data); 
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchVacinas();
+  }, []);
 
   return (
     <div className="container mt-3">
@@ -160,6 +184,34 @@ export default function GerarPerfil() {
             ></textarea>
           </div>
         </div>
+
+        <hr className="my-4" />
+        <h4 className="mb-3">Carteira de Vacinação</h4>
+        {isLoading ? (
+          <p>Carregando vacinas...</p>
+        ) : (
+          <div className="row">
+            {vacinas.map((vacina) => (
+              <div className="col-md-6 col-lg-4" key={vacina.id}>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="vacinas"
+                    value={vacina.id}
+                    id={`vacina-${vacina.id}`}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor={`vacina-${vacina.id}`}
+                  >
+                    {vacina.nome_vacina}
+                  </label>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
         <button className="w-100 btn btn-primary btn-lg mt-4" type="submit">
           Cadastrar Pet
