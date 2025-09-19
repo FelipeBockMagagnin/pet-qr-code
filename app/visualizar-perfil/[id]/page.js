@@ -11,7 +11,7 @@ export default function Page({ params }) {
       try {
         const res = await fetch("http://localhost:3000/api/pet-find", {
           method: "POST",
-          body: JSON.stringify({ id: Number(id) }), // É mais seguro usar Number()
+          body: JSON.stringify({ id: id }),
           headers: {
             "Content-Type": "application/json",
           },
@@ -19,7 +19,6 @@ export default function Page({ params }) {
 
 
         setPet(await res.json());
-
       } catch (error) {
         console.error("Erro na busca de dados:", error);
       }

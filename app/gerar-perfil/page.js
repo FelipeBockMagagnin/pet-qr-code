@@ -30,7 +30,7 @@ export default function GerarPerfil() {
   }, []);
 
   return (
-    <div className="container mt-3">
+    <div className="container my-3">
       <h1 className="mb-3">Cadastro de Pet</h1>
       {error && (
         <div className="alert alert-danger" role="alert">
